@@ -5,13 +5,12 @@
  */
 package PacmanRessources;
 
-import Library.AnimatedContent;
 
 /**
  *
  * @author Dorian
  */
-public class Pacman extends AnimatedContent
+public class Pacman
 {
     
 }

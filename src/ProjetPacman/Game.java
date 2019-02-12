@@ -5,6 +5,7 @@
  */
 package ProjetPacman;
 
+import Library.Grid;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,15 +17,15 @@ import java.util.logging.Logger;
 public class Game extends Observable implements Runnable
 {
     
-    private static int _lines = 30;
+    private static int _lines = 10;
     private static int _columns = 15;
-    private boolean[][] _matrix;
+    private Grid _grid;
 
     
     public Game()
     {
         super();
-        this._matrix = new boolean[this._lines][this._columns];
+        this._grid = new Grid(this._lines, this._columns);
     }
     
     @Override
@@ -48,9 +49,9 @@ public class Game extends Observable implements Runnable
 
     }
     
-    public boolean[][] getState()
+    public Grid getState()
     {
-        return this._matrix;
+        return this._grid;
     }
     
 }

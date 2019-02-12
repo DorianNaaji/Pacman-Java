@@ -9,7 +9,10 @@ package Library;
  *
  * @author Dorian
  */
-public class Case
+public enum Direction
 {
-    
+    TOP,
+    BOTTOM,
+    LEFT,
+    RIGHT
 }

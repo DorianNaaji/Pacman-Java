@@ -5,13 +5,12 @@
  */
 package PacmanRessources;
 
-import Library.NonAnimatedContent;
 
 /**
  *
  * @author Dorian
  */
-public class Gum extends NonAnimatedContent
+public class Gum
 {
     
 }

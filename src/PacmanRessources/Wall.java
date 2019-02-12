@@ -5,13 +5,12 @@
  */
 package PacmanRessources;
 
-import Library.NonAnimatedContent;
 
 /**
  *
  * @author Dorian
  */
-public class Wall extends NonAnimatedContent
+public class Wall
 {
     
 }

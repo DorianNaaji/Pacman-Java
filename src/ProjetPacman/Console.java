@@ -5,6 +5,8 @@
  */
 package ProjetPacman;
 
+import Library.Cell;
+import Library.Grid;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -25,14 +27,16 @@ public class Console implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        System.out.println("Hello ! I'm updated");
-        boolean[][] tab = this._game.getState();
-        for(int i = 0; i < tab.length; i++)
+        System.out.println("---------------------");
+        Cell[][] gridCells = this._game.getState().getCells();
+        for(int i = 0; i < gridCells.length; i++)
         {
-            for(int j = 0; j < tab[i].length; j++)
+            for(int j = 0; j < gridCells[i].length; j++)
             {
-                System.out.println(tab[i][j]);
+                System.out.print(" | ");
+                System.out.print(gridCells[i][j]);
             }
+            System.out.println();
         }
     }
 
