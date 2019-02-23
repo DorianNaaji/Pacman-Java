@@ -17,8 +17,8 @@ import java.util.logging.Logger;
 public class Game extends Observable implements Runnable
 {
     
-    private static int _lines = 10;
-    private static int _columns = 15;
+    private static int _lines = 5;
+    private static int _columns = 10;
     private Grid _grid;
 
     
@@ -38,15 +38,13 @@ public class Game extends Observable implements Runnable
                 this.setChanged();
                 this.notifyObservers();
                 // sleeps for 100ms
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } 
             catch (InterruptedException ex)
             {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
-
     }
     
     public Grid getState()

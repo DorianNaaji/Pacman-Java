@@ -5,10 +5,14 @@
  */
 package ProjetPacman;
 
-import Library.Cell;
+import Library.Direction;
+import Library.Entity;
 import Library.Grid;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,8 +31,7 @@ public class Console implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        System.out.println("---------------------");
-        Cell[][] gridCells = this._game.getState().getCells();
+        Entity[][] gridCells = this._game.getState().getCells();
         for(int i = 0; i < gridCells.length; i++)
         {
             for(int j = 0; j < gridCells[i].length; j++)
@@ -38,6 +41,11 @@ public class Console implements Observer
             }
             System.out.println();
         }
+        this._game.getState().getEntities().get(0).move(Direction.BOTTOM);
+        // printing some lines to get a more cleaner and easier to analyze output
+        System.out.println("\n\n\n\n\n\n\n\n");
+
     }
+    
 
 }

@@ -3,17 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/Library/AnimatedContent.java</file>
-            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/PacmanRessources/Ghost.java</file>
-            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/PacmanRessources/Gum.java</file>
-            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/Library/NonAnimatedContent.java</file>
-            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/PacmanRessources/Wall.java</file>
-            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/PacmanRessources/SuperGum.java</file>
-            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/Library/Case.java</file>
-            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/.git/config</file>
-            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/Library/Content.java</file>
-            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/PacmanRessources/Pacman.java</file>
+            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/ProjetPacman/Main.java</file>
+            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/ProjetPacman/Console.java</file>
+            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/Library/Entity.java</file>
             <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/Library/Grid.java</file>
+            <file>file:/C:/Users/Dorian/Desktop/POLYTECH%202018-2021/S6/Projet%20Informatique%20Encadré/PacmanJava/src/ProjetPacman/Game.java</file>
         </group>
     </open-files>
 </project-private>
