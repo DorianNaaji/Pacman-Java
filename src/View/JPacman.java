@@ -7,8 +7,7 @@ package View;
 
 import Library.Direction;
 import Library.Entity;
-import ProjetPacman.Console;
-import ProjetPacman.Game;
+import PacmanRessources.Game;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.application.Application;

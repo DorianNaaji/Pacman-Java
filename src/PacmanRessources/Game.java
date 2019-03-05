@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ProjetPacman;
+package PacmanRessources;
 
 import Library.Grid;
 import java.util.Observable;
