@@ -36,8 +36,8 @@ public class Grid
                 this._cells[i][j] = new Entity(" ", i, j, this);
             }
             // putting a PACMAN in line 3, col 6
-            Entity e = new Entity("P", 2, 5, this);
-            this._cells[2][5] = e;
+            Entity e = new Entity("P", 2, 3, this);
+            this._cells[2][3] = e;
             this._entities.add(e);
         }
     }
@@ -69,4 +69,5 @@ public class Grid
     {
         return this._entities;
     }
+   
 }

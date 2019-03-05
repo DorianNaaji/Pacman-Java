@@ -69,7 +69,6 @@ public class Entity
                 ret = this._grid.isTravellable(_x, _y-1);
                 if(ret)
                 {
-                    System.out.println(this._y);
                     this._grid.getCells()[this._x][this._y-1] = this;
                     this._grid.getCells()[this._x][this._y]  = new Entity(" ", this._x, this._y, this._grid);
                     this._y--;

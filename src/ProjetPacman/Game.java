@@ -16,9 +16,9 @@ import java.util.logging.Logger;
  */
 public class Game extends Observable implements Runnable
 {
-    
+    // 25 et 25 defaukt
     private static int _lines = 5;
-    private static int _columns = 10;
+    private static int _columns = 5;
     private Grid _grid;
 
     

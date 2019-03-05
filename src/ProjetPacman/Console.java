@@ -41,7 +41,7 @@ public class Console implements Observer
             }
             System.out.println();
         }
-        this._game.getState().getEntities().get(0).move(Direction.BOTTOM);
+        this._game.getState().getEntities().get(0).move(Direction.LEFT);
         // printing some lines to get a more cleaner and easier to analyze output
         System.out.println("\n\n\n\n\n\n\n\n");
 
