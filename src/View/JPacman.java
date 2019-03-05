@@ -26,6 +26,8 @@ import javafx.stage.Stage;
  */
 public class JPacman extends Application
 {
+    private Game _game;
+    private GridPane _pane;
     
 
     @Override
@@ -34,6 +36,7 @@ public class JPacman extends Application
 
         // initialisation du modèle que l'on souhaite utiliser
         Game game = new Game();
+        this._game = game;
         //texte
         Text affichage;
         // gestion du placement (permet de placer le champ Text affichage en haut, et GridPane gPane au centre)
@@ -41,12 +44,13 @@ public class JPacman extends Application
 
         // permet de placer les diffrents boutons dans une grille
         GridPane gPane = new GridPane();
-
-        int column = 0;
-        int row = 0;
+        this._pane = gPane;
         
         Affichage aff = new Affichage(game, gPane);
         game.addObserver(aff);
+        
+        int column = 0;
+        int row = 0;
         
         // création de la grille du jeu, placement des cases
         for(int i = 0; i < game.getState().getCells().length; i++)
@@ -69,7 +73,7 @@ public class JPacman extends Application
         }
         
         // permet d'afficher les bords des lignes ou non.
-        gPane.setGridLinesVisible(true);
+        //gPane.setGridLinesVisible(true);
         border.setCenter(gPane);
         Scene scene = new Scene(border, Color.WHITESMOKE);
         primaryStage.setTitle("PACMAN FX");
