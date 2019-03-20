@@ -7,12 +7,13 @@ package View;
 
 import Library.Direction;
 import Library.Entity;
-import PacmanRessources.Game;
+import Library.Game;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -37,26 +38,17 @@ public class Affichage implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        ObservableList<Node> elements = this._pane.getChildren();
-        for(int i = 0; i < elements.size(); i++)
+        for(int i = 0; i < this._game.getState().getCells().length; i++)
         {
-            for(int j = 0; j < this._game.getState().getCells().length; j++)
+            for(int j = 0; j < this._game.getState().getCells()[i].length; j++)
             {
-                for(int k = 0; k < this._game.getState().getCells()[j].length; k++)
-                {
-                    Text t = new Text(this._game.getState().getCells()[j][k].getName());
-                    t.setWrappingWidth(30);
-                    t.setFont(Font.font("Verdana", 20));
-                    t.setTextAlignment(TextAlignment.LEFT);
-                    
-                    Node textAsNode = this.getNodeByRowColumnIndex(j, k, _pane);
-                    Text oldText = (Text) textAsNode;
-                    oldText.setText(this._game.getState().getCells()[j][k].getName());
-                }
+                ImageView img = new ImageView(this._game.getState().getCells()[i][j].getImage());
+                Node imgAsNode = this.getNodeByRowColumnIndex(i, j, _pane);
+                ImageView oldImage = (ImageView) imgAsNode;
+                oldImage.setImage(this._game.getState().getCells()[i][j].getImage());
             }
         }
-        
-        this._game.getState().getEntities().get(0).move(Direction.LEFT);
+//        this._game.getState().getEntities().get(0).move(Direction.RIGHT);
     }
     
     /**
@@ -64,7 +56,7 @@ public class Affichage implements Observer
      * @param row
      * @param column
      * @param gridPane
-     * @see https://stackoverflow.com/questions/20825935/javafx-get-node-by-row-and-column (Sedrick)
+     * @see https://stackoverflow.com/questions/20825935/javafx-get-node-by-row-and-column (Sedrick°
      * @return 
      */
     private Node getNodeByRowColumnIndex(int row,  int column, GridPane gridPane) 

@@ -5,40 +5,37 @@
  */
 package Library;
 
+import javafx.scene.image.Image;
+
 /**
  *
  * @author Dorian
  */
 public class Entity
 {
-    
-    private String _entityDescription = " ";
+    private Image _image;
+    private String _imagePath;
     private int _x;
     private int _y;
     private Grid _grid;
     
-    public Entity(String entityDescr, int x, int y, Grid g)
+    public Entity(int x, int y, Grid g, String imgPath)
     {
-        this._entityDescription = entityDescr;
+        this._imagePath = imgPath;
+        this._image = new Image(this._imagePath);
         this._x = x;
         this._y = y;
         this._grid = g;
     }
     
-    @Override
-    public String toString()
+    public Image getImage()
     {
-        return this._entityDescription;
+        return this._image;
     }
     
-    public String getName()
+    public void setImage(Image image)
     {
-        return this._entityDescription;
-    }
-    
-    public void setContent(String content)
-    {
-        this._entityDescription = content;
+        this._image = image;
     }
     
     public int getX()
@@ -61,7 +58,7 @@ public class Entity
                 if(ret)
                 {
                     this._grid.getCells()[this._x][this._y+1] = this;
-                    this._grid.getCells()[this._x][this._y] = new Entity(" ", this._x, this._y, this._grid);
+                    this._grid.getCells()[this._x][this._y] = null;
                     this._y++;
                 }
                 break;
@@ -70,7 +67,7 @@ public class Entity
                 if(ret)
                 {
                     this._grid.getCells()[this._x][this._y-1] = this;
-                    this._grid.getCells()[this._x][this._y]  = new Entity(" ", this._x, this._y, this._grid);
+                    this._grid.getCells()[this._x][this._y]  = null;
                     this._y--;
                 }
                 break;
@@ -79,7 +76,7 @@ public class Entity
                 if(ret)
                 {
                     this._grid.getCells()[this._x-1][this._y] = this;
-                    this._grid.getCells()[this._x][this._y] = new Entity(" ", this._x, this._y, this._grid);
+                    this._grid.getCells()[this._x][this._y] = null;
                     this._x--;
                 }
                 break;
@@ -88,7 +85,7 @@ public class Entity
                 if(ret)
                 {
                     this._grid.getCells()[this._x+1][this._y] = this;
-                    this._grid.getCells()[this._x][this._y] = new Entity(" ", this._x, this._y, this._grid);
+                    this._grid.getCells()[this._x][this._y] = null;
                     this._x++;
                 }
                 break;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package PacmanRessources;
+package Library;
 
 import Library.Grid;
 import java.util.Observable;
@@ -16,9 +16,9 @@ import java.util.logging.Logger;
  */
 public class Game extends Observable implements Runnable
 {
-    // 25 et 25 defaukt
-    private static int _lines = 5;
-    private static int _columns = 5;
+    // 25 et 25 default
+    private static int _lines = 24;
+    private static int _columns = 24;
     private Grid _grid;
 
     
@@ -38,7 +38,7 @@ public class Game extends Observable implements Runnable
                 this.setChanged();
                 this.notifyObservers();
                 // sleeps for 100ms
-                Thread.sleep(1000);
+                Thread.sleep(100);
             } 
             catch (InterruptedException ex)
             {
