@@ -18,6 +18,7 @@ public class Entity
     private int _x;
     private int _y;
     private Grid _grid;
+    private EntityType _type;
     
     public Entity(int x, int y, Grid g, String imgPath)
     {
