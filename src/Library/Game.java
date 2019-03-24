@@ -21,6 +21,7 @@ public class Game extends Observable implements Runnable
     private static int _columns = 24;
     private Grid _grid;
     private Direction _dir = Direction.RIGHT;
+    private Direction _triedDir = null;
 
     
     public Game()
@@ -62,6 +63,16 @@ public class Game extends Observable implements Runnable
     public void setDirection(Direction dir)
     {
         this._dir = dir;
+    }
+    
+    public Direction getLastTriedDirection()
+    {
+        return this._triedDir;
+    }
+    
+    public void setLastTriedDirection(Direction dir)
+    {
+        this._triedDir = dir;
     }
     
 }

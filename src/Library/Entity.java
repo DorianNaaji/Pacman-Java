@@ -62,6 +62,22 @@ public class Entity
         this._image = new Image(imgPath);
     }
     
+    public boolean isTravellable(Direction dir)
+    {
+        switch(dir)
+        {
+            case RIGHT:
+                return this._grid.isTravellable(_x, _y+1);
+            case LEFT:
+                return this._grid.isTravellable(_x, _y-1);
+            case UP:
+                return this._grid.isTravellable(_x-1, _y);
+            case DOWN:
+                return this._grid.isTravellable(_x+1, _y);
+        }
+        return false;
+    }
+    
     public boolean move(Direction dir)
     {
         boolean ret = false;

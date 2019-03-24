@@ -7,7 +7,9 @@ package FileAndUserIO;
 
 import Library.Direction;
 import Library.Game;
-import MyExceptions.EntitiesException;
+import MyExceptions.EntityNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -29,23 +31,79 @@ public class UserIO
                 //goes up
                 if(event.getCode() == KeyCode.UP)
                 {
-                    g.setDirection(Direction.UP);
+                    try
+                    {
+                        if(g.getState().getPacman().isTravellable(Direction.UP))
+                        {
+                            g.setDirection(Direction.UP);
+                        }
+                        else
+                        {
+                            g.setLastTriedDirection(Direction.UP);
+                        }
+                    } 
+                    catch (EntityNotFoundException ex)
+                    {
+                        Logger.getLogger(UserIO.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                 }
                 //goes down
                 else if(event.getCode() == KeyCode.DOWN)
                 {
-                    g.setDirection(Direction.DOWN);
+                    try
+                    {
+                        if(g.getState().getPacman().isTravellable(Direction.DOWN))
+                        {
+                            g.setDirection(Direction.DOWN);
+                        }
+                        else
+                        {
+                            g.setLastTriedDirection(Direction.DOWN);
+                        }
+                    } 
+                    catch (EntityNotFoundException ex)
+                    {
+                        Logger.getLogger(UserIO.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 // goes right
                 else if(event.getCode() == KeyCode.RIGHT)
                 {
-                    g.setDirection(Direction.RIGHT);
+                    try
+                    {
+                        if(g.getState().getPacman().isTravellable(Direction.RIGHT))
+                        {
+                            g.setDirection(Direction.RIGHT);
+                        }
+                        else
+                        {
+                            g.setLastTriedDirection(Direction.RIGHT);
+                        }
+                    } 
+                    catch (EntityNotFoundException ex)
+                    {
+                        Logger.getLogger(UserIO.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 // goes left
                 else if(event.getCode() == KeyCode.LEFT)
                 {
-                    g.setDirection(Direction.LEFT);
+                    try
+                    {
+                        if(g.getState().getPacman().isTravellable(Direction.LEFT))
+                        {
+                            g.setDirection(Direction.LEFT);
+                        }
+                        else
+                        {
+                            g.setLastTriedDirection(Direction.LEFT);
+                        }
+                    } 
+                    catch (EntityNotFoundException ex)
+                    {
+                        Logger.getLogger(UserIO.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });

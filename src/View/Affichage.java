@@ -5,11 +5,10 @@
  */
 package View;
 
-import Library.Direction;
 import Library.Entity;
 import Library.EntityType;
 import Library.Game;
-import MyExceptions.EntitiesException;
+import MyExceptions.EntityNotFoundException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -29,7 +28,6 @@ import javafx.scene.text.TextAlignment;
  */
 public class Affichage implements Observer
 {
-    
     private Game _game;
     private GridPane _pane;
     
@@ -39,18 +37,54 @@ public class Affichage implements Observer
         this._pane = pane;
     }
 
+    /**
+     * Updates the view
+     * @param o
+     * @param arg 
+     */
     @Override
     public void update(Observable o, Object arg)
     {
+        this.movePacman();
+        this.updateImageViews();
+    }
+    
+    /**
+     * Moves the pacman
+     */
+    private void movePacman()
+    {
+        // for the gameplay to be more fluid, we stock the last tried direction of the player
+        // and we make the pacman go to this tried direction as soon as it is possible.
         try
         {
-            this._game.getState().getPacman().move(this._game.getDirection());
+            if(this._game.getLastTriedDirection() != null)
+            {
+                if(this._game.getState().getPacman().move(this._game.getLastTriedDirection()))
+                {
+                    this._game.setDirection(this._game.getLastTriedDirection());
+                    this._game.setLastTriedDirection(null);
+                }
+                else
+                {
+                    this._game.getState().getPacman().move(this._game.getDirection());
+                }
+            }
+            else
+            {
+                this._game.getState().getPacman().move(this._game.getDirection());
+            }
+
         } 
-        catch (EntitiesException ex)
+        catch (EntityNotFoundException ex)
         {
             System.out.println(ex + "||| Error occured in Affichage.update()");
             Logger.getLogger(Affichage.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void updateImageViews()
+    {
         for(int i = 0; i < this._game.getState().getCells().length; i++)
         {
             for(int j = 0; j < this._game.getState().getCells()[i].length; j++)
@@ -61,19 +95,6 @@ public class Affichage implements Observer
                 oldImage.setImage(this._game.getState().getCells()[i][j].getImage());
             }
         }
-
-            //tests
-//        for(int i = 0; i < this._game.getState().getEntities().size(); i++)
-//        {
-//            if(this._game.getState().getEntities().get(i).getType() == EntityType.PACMAN)
-//            {
-//                this._game.getState().getEntities().get(i).move(Direction.RIGHT);
-//            }
-//         //   System.out.println("pas trouvé");
-//        }
-
-
-
     }
     
     /**

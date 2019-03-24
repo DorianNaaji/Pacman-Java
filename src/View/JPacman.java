@@ -8,7 +8,7 @@ package View;
 import FileAndUserIO.UserIO;
 import Library.Direction;
 import Library.Game;
-import MyExceptions.EntitiesException;
+import MyExceptions.EntityNotFoundException;
 import Utilities.Consts;
 import java.awt.Event;
 import java.util.logging.Level;

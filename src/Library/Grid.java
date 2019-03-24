@@ -7,7 +7,7 @@ package Library;
 
 import FileAndUserIO.FileIO;
 import static Library.EntityType.GUM;
-import MyExceptions.EntitiesException;
+import MyExceptions.EntityNotFoundException;
 import Utilities.Consts;
 import java.util.ArrayList;
 
@@ -93,7 +93,7 @@ public class Grid
         return this._entities;
     }
     
-    public Entity getPacman() throws EntitiesException
+    public Entity getPacman() throws EntityNotFoundException
     {
         for(Entity entity : this._entities)
         {
@@ -102,7 +102,7 @@ public class Grid
                 return entity;
             }
         }
-        throw new EntitiesException("Pacman not found");
+        throw new EntityNotFoundException("Pacman not found");
     }
    
 }

@@ -9,9 +9,9 @@ package MyExceptions;
  *
  * @author Dorian
  */
-public class EntitiesException extends Exception
+public class EntityNotFoundException extends Exception
 {
-    public EntitiesException(String error)
+    public EntityNotFoundException(String error)
     {
         super(error);
     }
