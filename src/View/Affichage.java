@@ -7,9 +7,13 @@ package View;
 
 import Library.Direction;
 import Library.Entity;
+import Library.EntityType;
 import Library.Game;
+import MyExceptions.EntitiesException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -38,6 +42,15 @@ public class Affichage implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
+        try
+        {
+            this._game.getState().getPacman().move(this._game.getDirection());
+        } 
+        catch (EntitiesException ex)
+        {
+            System.out.println(ex + "||| Error occured in Affichage.update()");
+            Logger.getLogger(Affichage.class.getName()).log(Level.SEVERE, null, ex);
+        }
         for(int i = 0; i < this._game.getState().getCells().length; i++)
         {
             for(int j = 0; j < this._game.getState().getCells()[i].length; j++)
@@ -48,7 +61,19 @@ public class Affichage implements Observer
                 oldImage.setImage(this._game.getState().getCells()[i][j].getImage());
             }
         }
-//        this._game.getState().getEntities().get(0).move(Direction.RIGHT);
+
+            //tests
+//        for(int i = 0; i < this._game.getState().getEntities().size(); i++)
+//        {
+//            if(this._game.getState().getEntities().get(i).getType() == EntityType.PACMAN)
+//            {
+//                this._game.getState().getEntities().get(i).move(Direction.RIGHT);
+//            }
+//         //   System.out.println("pas trouvé");
+//        }
+
+
+
     }
     
     /**

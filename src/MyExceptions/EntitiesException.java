@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Library;
+package MyExceptions;
 
 /**
  *
  * @author Dorian
  */
-public enum Direction
+public class EntitiesException extends Exception
 {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
+    public EntitiesException(String error)
+    {
+        super(error);
+    }
+    
 }

@@ -5,20 +5,25 @@
  */
 package View;
 
+import FileAndUserIO.UserIO;
 import Library.Direction;
-import Library.Entity;
 import Library.Game;
-import java.util.Observable;
-import java.util.Observer;
+import MyExceptions.EntitiesException;
+import Utilities.Consts;
+import java.awt.Event;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 /**
@@ -34,6 +39,7 @@ public class JPacman extends Application
     @Override
     public void start(Stage primaryStage)
     {
+        primaryStage.getIcons().add(new Image(Consts.getPolytechImgPath()));
         //empêche de resize la window
         primaryStage.resizableProperty().set(false);
         // initialisation du modèle que l'on souhaite utiliser
@@ -68,21 +74,31 @@ public class JPacman extends Application
             }
         }
         
+
+        
+        
         // permet d'afficher les bords des lignes ou non.
         //gPane.setGridLinesVisible(true);
         border.setCenter(gPane);
         Scene scene = new Scene(border, Color.WHITESMOKE);
         primaryStage.setTitle("PACMAN FX");
         primaryStage.setScene(scene);
+
+        // on ajoute les events
+        UserIO.addEvents(primaryStage, this._game);
+        
         // on affiche la scène
         primaryStage.show();
+        
         
         // on lance le thread de la couche métier
         new Thread(game).start();
 
     }
     
-    
+   
+
+
 
     /**
      * @param args the command line arguments
@@ -91,4 +107,5 @@ public class JPacman extends Application
     {
         launch(args);
     }
+
 }

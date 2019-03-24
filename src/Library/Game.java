@@ -20,6 +20,7 @@ public class Game extends Observable implements Runnable
     private static int _lines = 24;
     private static int _columns = 24;
     private Grid _grid;
+    private Direction _dir = Direction.RIGHT;
 
     
     public Game()
@@ -37,8 +38,9 @@ public class Game extends Observable implements Runnable
             {
                 this.setChanged();
                 this.notifyObservers();
-                // sleeps for 100ms
-                Thread.sleep(100);
+                // sleeps for 300ms
+                // pretty okay amount of time so the player can react easily : not too fast, not too slow.
+                Thread.sleep(300);
             } 
             catch (InterruptedException ex)
             {
@@ -50,6 +52,16 @@ public class Game extends Observable implements Runnable
     public Grid getState()
     {
         return this._grid;
+    }
+    
+    public Direction getDirection()
+    {
+        return this._dir;
+    }
+    
+    public void setDirection(Direction dir)
+    {
+        this._dir = dir;
     }
     
 }

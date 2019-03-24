@@ -5,6 +5,7 @@
  */
 package Library;
 
+import Utilities.Consts;
 import javafx.scene.image.Image;
 
 /**
@@ -20,13 +21,14 @@ public class Entity
     private Grid _grid;
     private EntityType _type;
     
-    public Entity(int x, int y, Grid g, String imgPath)
+    public Entity(int x, int y, Grid g, String imgPath, EntityType type)
     {
         this._imagePath = imgPath;
         this._image = new Image(this._imagePath);
         this._x = x;
         this._y = y;
         this._grid = g;
+        this._type = type;
     }
     
     public Image getImage()
@@ -49,6 +51,17 @@ public class Entity
         return this._y;
     }
     
+    public EntityType getType()
+    {
+        return this._type;
+    }
+    
+    public void setNewImage(String imgPath)
+    {
+        this._imagePath = imgPath;
+        this._image = new Image(imgPath);
+    }
+    
     public boolean move(Direction dir)
     {
         boolean ret = false;
@@ -58,8 +71,14 @@ public class Entity
                 ret = this._grid.isTravellable(_x, _y+1);
                 if(ret)
                 {
+                    // the entity has moved to the right
                     this._grid.getCells()[this._x][this._y+1] = this;
-                    this._grid.getCells()[this._x][this._y] = null;
+                    // if the entity was a pacman, the previous cell becomes a default cell
+                    if(this._type == EntityType.PACMAN)
+                    {
+                        this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getDefaultImgPath(), EntityType.DEFAULT);
+                        this.setNewImage(Consts.getPacmanRightImgPath());
+                    }
                     this._y++;
                 }
                 break;
@@ -68,25 +87,40 @@ public class Entity
                 if(ret)
                 {
                     this._grid.getCells()[this._x][this._y-1] = this;
-                    this._grid.getCells()[this._x][this._y]  = null;
+                    // if the entity was a pacman, the previous cell becomes a default cell
+                    if(this._type == EntityType.PACMAN)
+                    {
+                        this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getDefaultImgPath(), EntityType.DEFAULT);
+                        this.setNewImage(Consts.getPacmanLeftImgPath());
+                    }
                     this._y--;
                 }
                 break;
-            case TOP:
+            case UP:
                 ret = this._grid.isTravellable(_x-1, _y);
                 if(ret)
                 {
                     this._grid.getCells()[this._x-1][this._y] = this;
-                    this._grid.getCells()[this._x][this._y] = null;
+                    // if the entity was a pacman, the previous cell becomes a default cell
+                    if(this._type == EntityType.PACMAN)
+                    {
+                        this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getDefaultImgPath(), EntityType.DEFAULT);
+                        this.setNewImage(Consts.getPacmanUpImgPath());
+                    }
                     this._x--;
                 }
                 break;
-            case BOTTOM:
+            case DOWN:
                 ret = this._grid.isTravellable(_x+1, _y);
                 if(ret)
                 {
                     this._grid.getCells()[this._x+1][this._y] = this;
-                    this._grid.getCells()[this._x][this._y] = null;
+                    // if the entity was a pacman, the previous cell becomes a default cell
+                    if(this._type == EntityType.PACMAN)
+                    {
+                        this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getDefaultImgPath(), EntityType.DEFAULT);
+                        this.setNewImage(Consts.getPacmanDownImgPath());
+                    }
                     this._x++;
                 }
                 break;

@@ -6,6 +6,9 @@
 package Library;
 
 import FileAndUserIO.FileIO;
+import static Library.EntityType.GUM;
+import MyExceptions.EntitiesException;
+import Utilities.Consts;
 import java.util.ArrayList;
 
 /**
@@ -31,38 +34,32 @@ public class Grid
         this._rows = rows;
         this._columns = cols;
         this._cells = new Entity[rows][cols];
-        this._map = Utilities.StrUtilities.StringTo2D_CharArray(FileIO.readTextFile("src/resources/map.txt"), rows, cols);
+        this._map = Utilities.StrUtilities.StringTo2D_CharArray(FileIO.readTextFile(Consts.getMapTxtPath()), rows, cols);
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < cols; j++)
             {
                 if(this._map[i][j] == '0')
                 {
-                    this._cells[i][j] = new Entity(i, j, this, "resources/default_small_gum.png");
+                    this._cells[i][j] = new Entity(i, j, this, Consts.getSmallGumImgPath(), EntityType.GUM);
                     this._entities.add(this._cells[i][j]);
                 }
                 else if(this._map[i][j] == '1')
                 {
-                    this._cells[i][j] = new Entity(i, j, this, "resources/wall.png");
+                    this._cells[i][j] = new Entity(i, j, this, Consts.getWallImgPath(), EntityType.WALL);
                     this._entities.add(this._cells[i][j]);
                 }
                 else if(this._map[i][j] == '2')
                 {
-                    this._cells[i][j] = new Entity(i, j, this, "resources/default_big_gum.png");
+                    this._cells[i][j] = new Entity(i, j, this, Consts.getBigGumImgPath(), EntityType.BIG_GUM);
                     this._entities.add(this._cells[i][j]);
                 }
                 else if(this._map[i][j] == '3')
                 {
-                    this._cells[i][j] = new Entity(i, j, this, "resources/pacman_right.png");
+                    this._cells[i][j] = new Entity(i, j, this, Consts.getPacmanRightImgPath(), EntityType.PACMAN);
                     this._entities.add(this._cells[i][j]);
                 }
-                //this._cells[i][j] = new Entity(i, j, this, "resources/pacman_top.png");
             }
-            System.out.println();
-            // putting a PACMAN in line 5, col 7
-            //Entity e = new Entity("P", 5, 7, this);
-            //this._cells[5][7] = e;
-            //this._entities.add(e);
         }
     }
 
@@ -83,7 +80,7 @@ public class Grid
     {
         if ((x < this._rows) && (y < this._columns) && (x >= 0) && (y >= 0))
         {
-            return ((this._cells[x][y] == null));
+            return ((this._cells[x][y].getType() != EntityType.WALL));
         } 
         else
         {
@@ -94,6 +91,18 @@ public class Grid
     public ArrayList<Entity> getEntities()
     {
         return this._entities;
+    }
+    
+    public Entity getPacman() throws EntitiesException
+    {
+        for(Entity entity : this._entities)
+        {
+            if(entity.getType() == EntityType.PACMAN)
+            {
+                return entity;
+            }
+        }
+        throw new EntitiesException("Pacman not found");
     }
    
 }

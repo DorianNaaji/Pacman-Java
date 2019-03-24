@@ -11,5 +11,10 @@ package Library;
  */
 public enum EntityType
 {
-    
+    DEFAULT,
+    WALL,
+    GUM,
+    BIG_GUM,
+    PACMAN,
+    GHOST
 }
