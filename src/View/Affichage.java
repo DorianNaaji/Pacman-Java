@@ -72,6 +72,17 @@ public class Affichage implements Observer
      */
     private boolean checkWin()
     {
+        if (this._game.getState().getWin_NoMoreGums())
+        {
+            // END OF THE GAME
+            this._game.stop();
+            Platform.runLater(() -> this._pane.getChildren().clear());
+            Text label = new Text("You won !");
+            label.setStyle("-fx-font: 90 arial;");
+            Platform.runLater(() -> this._pane.add(label, 0, 0));
+
+            return true;
+        }
         return false;
     }
     /**

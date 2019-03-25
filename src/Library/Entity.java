@@ -192,8 +192,6 @@ public class Entity
      */
     private boolean move(int xOffset, int yOffset)
     {
-        System.out.println(xOffset);
-        System.out.println(yOffset);
         boolean res = false;
         boolean lost = false;
         res = this._grid.isTravellable(_x + xOffset, _y + yOffset);

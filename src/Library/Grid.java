@@ -24,7 +24,6 @@ public class Grid
     private ArrayList<Entity> _entities = new ArrayList<Entity>();
     private char[][] _map;
     private boolean _lost = false;
-    private boolean _win = false;
 
     /**
      *
@@ -160,6 +159,16 @@ public class Grid
         {
             throw new EntityNotFoundException("Ghosts not found");
         }
+    }
+    
+    /**
+     * Checks if the grid contains no more gum
+     * @return true if this is the case. False otherwise.
+     */
+    public boolean getWin_NoMoreGums()
+    {
+        //TODO
+        return false;
     }
     
     public void setLost(boolean lost)
