@@ -199,8 +199,13 @@ public class Entity
         res = this._grid.isTravellable(_x + xOffset, _y + yOffset);
         if (this._type == EntityType.PACMAN)
         {
-            lost = this._grid.containsGhost(_x + xOffset, _y + yOffset);
+            lost = this._grid.contains(_x + xOffset, _y + yOffset, EntityType.GHOST);
         }
+        else if(this._type == EntityType.GHOST)
+        {
+            lost = this._grid.contains(_x + xOffset, _y + yOffset, EntityType.PACMAN);
+        }
+        
         if (res & !lost)
         {
             if (this._type == EntityType.PACMAN)
@@ -212,9 +217,9 @@ public class Entity
             }
             if (this._type == EntityType.GHOST)
             {
-                boolean gum = this._grid.containsGum(_x + xOffset, _y + yOffset);
-                boolean bigGum = this._grid.containsBigGum(_x + xOffset, _y + yOffset);
-                boolean ghost = this._grid.containsGhost(_x + xOffset, _y + yOffset);
+                boolean gum = this._grid.contains(_x + xOffset, _y + yOffset, EntityType.GUM);
+                boolean bigGum = this._grid.contains(_x + xOffset, _y + yOffset, EntityType.BIG_GUM);
+                boolean ghost = this._grid.contains(_x + xOffset, _y + yOffset, EntityType.GHOST);
                 //if the ghost were about to "meet", the function returns false.
                 if (ghost)
                 {

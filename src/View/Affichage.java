@@ -57,7 +57,8 @@ public class Affichage implements Observer
             // END OF THE GAME
             this._game.stop();
             Platform.runLater(() -> this._pane.getChildren().clear());
-            Label label = new Label("Game over !");
+            Text label = new Text("Game over !");
+            label.setStyle("-fx-font: 90 arial;");
             Platform.runLater(() -> this._pane.add(label, 0, 0));
 
             return true;

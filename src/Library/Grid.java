@@ -105,41 +105,25 @@ public class Grid
         }
     }
     
-    public boolean containsGhost(int x, int y)
+    /**
+     * Checks if a cell contains a give entity
+     * @param x the x pos of the entity
+     * @param y the y pos of the entity
+     * @param type the type of the entity
+     * @return 
+     */
+    public boolean contains(int x, int y, EntityType type)
     {
         if ((x < this._rows) && (y < this._columns) && (x >= 0) && (y >= 0))
         {
-            return ((this._cells[x][y].getType() == EntityType.GHOST));
+            return ((this._cells[x][y].getType() == type));
         } 
         else
         {
             return false;
         }
     }
-    
-    public boolean containsGum(int x, int y)
-    {
-        if ((x < this._rows) && (y < this._columns) && (x >= 0) && (y >= 0))
-        {
-            return ((this._cells[x][y].getType() == EntityType.GUM));
-        } 
-        else
-        {
-            return false;
-        }
-    }
-    
-        public boolean containsBigGum(int x, int y)
-    {
-        if ((x < this._rows) && (y < this._columns) && (x >= 0) && (y >= 0))
-        {
-            return ((this._cells[x][y].getType() == EntityType.BIG_GUM));
-        } 
-        else
-        {
-            return false;
-        }
-    }
+
 
     public ArrayList<Entity> getEntities()
     {
