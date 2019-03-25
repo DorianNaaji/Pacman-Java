@@ -34,11 +34,13 @@ public class JPacman extends Application
 {
     private Game _game;
     private GridPane _pane;
+
     
 
     @Override
     public void start(Stage primaryStage)
     {
+
         primaryStage.getIcons().add(new Image(Consts.getPolytechImgPath()));
         //empêche de resize la window
         primaryStage.resizableProperty().set(false);
@@ -93,10 +95,17 @@ public class JPacman extends Application
         
         // on lance le thread de la couche métier
         new Thread(game).start();
-
+        
     }
     
+    @Override
+    public void stop()
+    {
+        this._game.stop();
+    }
    
+    
+
 
 
 

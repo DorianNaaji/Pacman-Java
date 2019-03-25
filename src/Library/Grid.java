@@ -23,6 +23,8 @@ public class Grid
     private Entity[][] _cells;
     private ArrayList<Entity> _entities = new ArrayList<Entity>();
     private char[][] _map;
+    private boolean _lost = false;
+    private boolean _win = false;
 
     /**
      *
@@ -59,6 +61,21 @@ public class Grid
                     this._cells[i][j] = new Entity(i, j, this, Consts.getPacmanRightImgPath(), EntityType.PACMAN);
                     this._entities.add(this._cells[i][j]);
                 }
+                else if(this._map[i][j] == '4')
+                {
+                    this._cells[i][j] = new Entity(i, j, this, Consts.getRedGhostImgPath(), EntityType.GHOST);
+                    this._entities.add(this._cells[i][j]);
+                }
+                else if(this._map[i][j] == '5')
+                {
+                    this._cells[i][j] = new Entity(i, j, this, Consts.getPinkGhostImgPath(), EntityType.GHOST);
+                    this._entities.add(this._cells[i][j]);
+                }
+                else if(this._map[i][j] == '6')
+                {
+                    this._cells[i][j] = new Entity(i, j, this, Consts.getOrangeGhostImgPath(), EntityType.GHOST);
+                    this._entities.add(this._cells[i][j]);
+                }
             }
         }
     }
@@ -87,6 +104,42 @@ public class Grid
             return false;
         }
     }
+    
+    public boolean containsGhost(int x, int y)
+    {
+        if ((x < this._rows) && (y < this._columns) && (x >= 0) && (y >= 0))
+        {
+            return ((this._cells[x][y].getType() == EntityType.GHOST));
+        } 
+        else
+        {
+            return false;
+        }
+    }
+    
+    public boolean containsGum(int x, int y)
+    {
+        if ((x < this._rows) && (y < this._columns) && (x >= 0) && (y >= 0))
+        {
+            return ((this._cells[x][y].getType() == EntityType.GUM));
+        } 
+        else
+        {
+            return false;
+        }
+    }
+    
+        public boolean containsBigGum(int x, int y)
+    {
+        if ((x < this._rows) && (y < this._columns) && (x >= 0) && (y >= 0))
+        {
+            return ((this._cells[x][y].getType() == EntityType.BIG_GUM));
+        } 
+        else
+        {
+            return false;
+        }
+    }
 
     public ArrayList<Entity> getEntities()
     {
@@ -104,5 +157,34 @@ public class Grid
         }
         throw new EntityNotFoundException("Pacman not found");
     }
-   
+    
+    public ArrayList<Entity> getGhosts() throws EntityNotFoundException
+    {
+        ArrayList<Entity> ghosts = new ArrayList<Entity>();
+        for(Entity entity : this._entities)
+        {
+            if(entity.getType() == EntityType.GHOST)
+            {
+                ghosts.add(entity);
+            }
+        }
+        if(!ghosts.isEmpty())
+        {
+            return ghosts;
+        }
+        else
+        {
+            throw new EntityNotFoundException("Ghosts not found");
+        }
+    }
+    
+    public void setLost(boolean lost)
+    {
+        this._lost = lost;
+    }
+    
+    public boolean getLost()
+    {
+        return this._lost;
+    }
 }

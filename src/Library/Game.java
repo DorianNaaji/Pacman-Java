@@ -22,6 +22,7 @@ public class Game extends Observable implements Runnable
     private Grid _grid;
     private Direction _dir = Direction.RIGHT;
     private Direction _triedDir = null;
+    private boolean _exit = false;
 
     
     public Game()
@@ -33,21 +34,28 @@ public class Game extends Observable implements Runnable
     @Override
     public synchronized void run()
     {
-        while(true)
+        while(!this._exit)
         {
             try
             {
+
                 this.setChanged();
                 this.notifyObservers();
                 // sleeps for 300ms
                 // pretty okay amount of time so the player can react easily : not too fast, not too slow.
                 Thread.sleep(300);
+
             } 
             catch (InterruptedException ex)
             {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    public void stop()
+    {
+        this._exit = true;
     }
     
     public Grid getState()

@@ -5,7 +5,14 @@
  */
 package Library;
 
+import static Library.Direction.DOWN;
+import static Library.Direction.LEFT;
+import static Library.Direction.RIGHT;
+import static Library.Direction.UP;
 import Utilities.Consts;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
 import javafx.scene.image.Image;
 
 /**
@@ -14,13 +21,22 @@ import javafx.scene.image.Image;
  */
 public class Entity
 {
+
     private Image _image;
     private String _imagePath;
     private int _x;
     private int _y;
     private Grid _grid;
     private EntityType _type;
-    
+
+    /**
+     * 
+     * @param x : x pos of the entity
+     * @param y : y pos of the entity
+     * @param g : the grid
+     * @param imgPath : the path of the entity img texture
+     * @param type : the type of the entity
+     */
     public Entity(int x, int y, Grid g, String imgPath, EntityType type)
     {
         this._imagePath = imgPath;
@@ -30,117 +46,225 @@ public class Entity
         this._grid = g;
         this._type = type;
     }
-    
+
+    /**
+     * Gets the entity image
+     * @return the current entity img
+     */
     public Image getImage()
     {
         return this._image;
     }
-    
-    public void setImage(Image image)
-    {
-        this._image = image;
-    }
-    
+
+    /**
+     * Getter
+     * @return the X position of the current entity
+     */
     public int getX()
     {
         return this._x;
     }
-    
+
+    /**
+     * Getter
+     * @return The Y position of the current entity 
+     */
     public int getY()
     {
         return this._y;
     }
-    
+
+    /**
+     * Getter
+     * @return the type of the entity
+     */
     public EntityType getType()
     {
         return this._type;
     }
-    
+
+    /**
+     * Sets a new Image & new ImagePath to the current entity
+     * @param imgPath : The path of the img
+     */
     public void setNewImage(String imgPath)
     {
         this._imagePath = imgPath;
         this._image = new Image(imgPath);
     }
-    
+
+    /**
+     * Checks if  a direction is travellable
+     * @param dir the direction 
+     * @return true if travellable. False otherwise
+     */
     public boolean isTravellable(Direction dir)
     {
-        switch(dir)
+        switch (dir)
         {
             case RIGHT:
-                return this._grid.isTravellable(_x, _y+1);
+                return this._grid.isTravellable(_x, _y + 1);
             case LEFT:
-                return this._grid.isTravellable(_x, _y-1);
+                return this._grid.isTravellable(_x, _y - 1);
             case UP:
-                return this._grid.isTravellable(_x-1, _y);
+                return this._grid.isTravellable(_x - 1, _y);
             case DOWN:
-                return this._grid.isTravellable(_x+1, _y);
+                return this._grid.isTravellable(_x + 1, _y);
         }
         return false;
     }
-    
+
+    /**
+     * AI for ghosts (totally random, can be changed for a better one)
+     */
+    public void moveAI()
+    {
+        boolean flag = false;
+        ArrayList<Direction> directions = new ArrayList<Direction>();
+        directions.add(Direction.DOWN);
+        directions.add(Direction.LEFT);
+        directions.add(Direction.RIGHT);
+        directions.add(Direction.UP);
+        Random r = new Random();
+        int cpt = 0;
+        while (!flag)
+        {
+            int i = r.nextInt(4);
+            if (this.move(directions.get(i)))
+            {
+                flag = true;
+            }
+            if (cpt > 100)
+            {
+                flag = true;
+            }
+            cpt++;
+        }
+    }
+
+    /**
+     * Moves an entity
+     * @param dir the direction in which will move the entity
+     * @return true if the entity has moved. False otherwise.
+     */
     public boolean move(Direction dir)
     {
         boolean ret = false;
-        switch(dir)
+        switch (dir)
         {
             case RIGHT:
-                ret = this._grid.isTravellable(_x, _y+1);
-                if(ret)
+                ret = this.move(0, 1);
+                if(this._type == EntityType.PACMAN)
                 {
-                    // the entity has moved to the right
-                    this._grid.getCells()[this._x][this._y+1] = this;
-                    // if the entity was a pacman, the previous cell becomes a default cell
-                    if(this._type == EntityType.PACMAN)
-                    {
-                        this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getDefaultImgPath(), EntityType.DEFAULT);
-                        this.setNewImage(Consts.getPacmanRightImgPath());
-                    }
-                    this._y++;
+                    this.changePacmanTextureAccordingToDirection(RIGHT);
                 }
                 break;
             case LEFT:
-                ret = this._grid.isTravellable(_x, _y-1);
-                if(ret)
+                ret = this.move(0, - 1);
+                if(this._type == EntityType.PACMAN)
                 {
-                    this._grid.getCells()[this._x][this._y-1] = this;
-                    // if the entity was a pacman, the previous cell becomes a default cell
-                    if(this._type == EntityType.PACMAN)
-                    {
-                        this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getDefaultImgPath(), EntityType.DEFAULT);
-                        this.setNewImage(Consts.getPacmanLeftImgPath());
-                    }
-                    this._y--;
+                    this.changePacmanTextureAccordingToDirection(LEFT);
                 }
                 break;
             case UP:
-                ret = this._grid.isTravellable(_x-1, _y);
-                if(ret)
+                ret = this.move(- 1, 0);
+                if(this._type == EntityType.PACMAN)
                 {
-                    this._grid.getCells()[this._x-1][this._y] = this;
-                    // if the entity was a pacman, the previous cell becomes a default cell
-                    if(this._type == EntityType.PACMAN)
-                    {
-                        this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getDefaultImgPath(), EntityType.DEFAULT);
-                        this.setNewImage(Consts.getPacmanUpImgPath());
-                    }
-                    this._x--;
+                    this.changePacmanTextureAccordingToDirection(UP);
                 }
                 break;
             case DOWN:
-                ret = this._grid.isTravellable(_x+1, _y);
-                if(ret)
+                ret = this.move(1, 0);
+                if(this._type == EntityType.PACMAN)
                 {
-                    this._grid.getCells()[this._x+1][this._y] = this;
-                    // if the entity was a pacman, the previous cell becomes a default cell
-                    if(this._type == EntityType.PACMAN)
-                    {
-                        this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getDefaultImgPath(), EntityType.DEFAULT);
-                        this.setNewImage(Consts.getPacmanDownImgPath());
-                    }
-                    this._x++;
+                    this.changePacmanTextureAccordingToDirection(DOWN);
                 }
                 break;
         }
         return ret;
+    }
+
+    /**
+     * Moves the current entity according to given offsets
+     * @param xOffset vertical offset
+     * @param yOffset horizontal offset
+     * @return 
+     */
+    private boolean move(int xOffset, int yOffset)
+    {
+        System.out.println(xOffset);
+        System.out.println(yOffset);
+        boolean res = false;
+        boolean lost = false;
+        res = this._grid.isTravellable(_x + xOffset, _y + yOffset);
+        if (this._type == EntityType.PACMAN)
+        {
+            lost = this._grid.containsGhost(_x + xOffset, _y + yOffset);
+        }
+        if (res & !lost)
+        {
+            if (this._type == EntityType.PACMAN)
+            {
+                // the entity has moved to the right
+                this._grid.getCells()[this._x + xOffset][this._y + yOffset] = this;
+                // if the entity was a pacman, the previous cell becomes a default cell
+                this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getDefaultImgPath(), EntityType.DEFAULT);
+            }
+            if (this._type == EntityType.GHOST)
+            {
+                boolean gum = this._grid.containsGum(_x + xOffset, _y + yOffset);
+                boolean bigGum = this._grid.containsBigGum(_x + xOffset, _y + yOffset);
+                boolean ghost = this._grid.containsGhost(_x + xOffset, _y + yOffset);
+                //if the ghost were about to "meet", the function returns false.
+                if (ghost)
+                {
+                    return false;
+                } // the previous cell was a gum
+                else if (gum)
+                {
+                    // the entity has moved to the right
+                    this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getSmallGumImgPath(), EntityType.GUM);
+                } // the previous cell was a big gum
+                else if (bigGum)
+                {
+                    this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getBigGumImgPath(), EntityType.BIG_GUM);
+                } // the previous cell was default
+                else
+                {
+                    this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getDefaultImgPath(), EntityType.DEFAULT);
+                }
+                this._grid.getCells()[this._x + xOffset][this._y + yOffset] = this;
+            }
+            this._y += yOffset;
+            this._x += xOffset;
+        }
+        if (lost)
+        {
+            this._grid.setLost(true);
+        }
+        return res;
+    }
+
+    /**
+     * Chagnes the pacman texture according to a direction
+     * @param dir the direction of the pacman
+     */
+    private void changePacmanTextureAccordingToDirection(Direction dir)
+    {
+        switch (dir)
+        {
+            case RIGHT:
+                this.setNewImage(Consts.getPacmanRightImgPath());
+                break;
+            case LEFT:
+                this.setNewImage(Consts.getPacmanLeftImgPath());
+                break;
+            case UP:
+                this.setNewImage(Consts.getPacmanUpImgPath());
+                break;
+            case DOWN:
+                this.setNewImage(Consts.getPacmanDownImgPath());
+                break;
+        }
     }
 }

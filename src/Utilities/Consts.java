@@ -60,4 +60,19 @@ public class Consts
     {
         return "resources/polytech.png";
     }
+    
+    public static String getRedGhostImgPath()
+    {
+        return "resources/red_ghost.png";
+    }
+    
+    public static String getPinkGhostImgPath()
+    {
+        return "resources/pink_ghost.png";
+    }
+    
+    public static String getOrangeGhostImgPath()
+    {
+        return "resources/orange_ghost.png";
+    }
 }
