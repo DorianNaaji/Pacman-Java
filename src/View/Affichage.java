@@ -72,7 +72,7 @@ public class Affichage implements Observer
      */
     private boolean checkWin()
     {
-        if (this._game.getState().getWin_NoMoreGums())
+        if (this._game.getState().noMoreGums())
         {
             // END OF THE GAME
             this._game.stop();

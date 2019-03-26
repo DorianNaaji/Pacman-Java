@@ -24,6 +24,7 @@ public class Grid
     private ArrayList<Entity> _entities = new ArrayList<Entity>();
     private char[][] _map;
     private boolean _lost = false;
+    private int _nbGums;
 
     /**
      *
@@ -40,43 +41,42 @@ public class Grid
         {
             for (int j = 0; j < cols; j++)
             {
-                if(this._map[i][j] == '0')
+                switch(this._map[i][j])
                 {
-                    this._cells[i][j] = new Entity(i, j, this, Consts.getSmallGumImgPath(), EntityType.GUM);
-                    this._entities.add(this._cells[i][j]);
-                }
-                else if(this._map[i][j] == '1')
-                {
-                    this._cells[i][j] = new Entity(i, j, this, Consts.getWallImgPath(), EntityType.WALL);
-                    this._entities.add(this._cells[i][j]);
-                }
-                else if(this._map[i][j] == '2')
-                {
-                    this._cells[i][j] = new Entity(i, j, this, Consts.getBigGumImgPath(), EntityType.BIG_GUM);
-                    this._entities.add(this._cells[i][j]);
-                }
-                else if(this._map[i][j] == '3')
-                {
-                    this._cells[i][j] = new Entity(i, j, this, Consts.getPacmanRightImgPath(), EntityType.PACMAN);
-                    this._entities.add(this._cells[i][j]);
-                }
-                else if(this._map[i][j] == '4')
-                {
-                    this._cells[i][j] = new Entity(i, j, this, Consts.getRedGhostImgPath(), EntityType.GHOST);
-                    this._entities.add(this._cells[i][j]);
-                }
-                else if(this._map[i][j] == '5')
-                {
-                    this._cells[i][j] = new Entity(i, j, this, Consts.getPinkGhostImgPath(), EntityType.GHOST);
-                    this._entities.add(this._cells[i][j]);
-                }
-                else if(this._map[i][j] == '6')
-                {
-                    this._cells[i][j] = new Entity(i, j, this, Consts.getOrangeGhostImgPath(), EntityType.GHOST);
-                    this._entities.add(this._cells[i][j]);
+                    case '0':
+                        this._cells[i][j] = new Entity(i, j, this, Consts.getSmallGumImgPath(), EntityType.GUM);
+                        this._entities.add(this._cells[i][j]);
+//                        this._cells[i][j] = new Entity(i, j, this, Consts.getDefaultImgPath(), EntityType.DEFAULT);
+//                        this._entities.add(this._cells[i][j]);
+                        break;
+                    case '1':
+                        this._cells[i][j] = new Entity(i, j, this, Consts.getWallImgPath(), EntityType.WALL);
+                        this._entities.add(this._cells[i][j]);
+                        break;
+                    case '2':
+                        this._cells[i][j] = new Entity(i, j, this, Consts.getBigGumImgPath(), EntityType.BIG_GUM);
+                        this._entities.add(this._cells[i][j]);
+                        break;
+                    case '3':
+                        this._cells[i][j] = new Entity(i, j, this, Consts.getPacmanRightImgPath(), EntityType.PACMAN);
+                        this._entities.add(this._cells[i][j]);
+                        break;
+                    case '4':
+                        this._cells[i][j] = new Entity(i, j, this, Consts.getRedGhostImgPath(), EntityType.GHOST);
+                        this._entities.add(this._cells[i][j]);
+                        break;                    
+                    case '5':
+                        this._cells[i][j] = new Entity(i, j, this, Consts.getPinkGhostImgPath(), EntityType.GHOST);
+                        this._entities.add(this._cells[i][j]);
+                        break;
+                    case '6':
+                        this._cells[i][j] = new Entity(i, j, this, Consts.getOrangeGhostImgPath(), EntityType.GHOST);
+                        this._entities.add(this._cells[i][j]);
+                        break;
                 }
             }
         }
+        this._nbGums = this.countGums();
     }
 
 
@@ -123,12 +123,46 @@ public class Grid
         }
     }
 
+    private int countGums()
+    {
+        int gums = 0;
+        for(int i = 0; i < this._entities.size(); i++)
+        {
+            if(this._entities.get(i).getType() == EntityType.GUM || this._entities.get(i).getType() == EntityType.BIG_GUM)
+            {
+                gums++;
+            }
+        }
+        return gums;
+    }
+    
+    /**
+     * Reduces the amount of gum by one if one has been eaten
+     */
+    public void eatenGum()
+    {
+        this._nbGums--;
+    }
+    
+    /**
+     * 
+     * @return true if the grid does not contain any gum. False otherwise 
+     */
+    public boolean noMoreGums()
+    {
+        return this._nbGums == 0;
+    }
 
     public ArrayList<Entity> getEntities()
     {
         return this._entities;
     }
     
+    /**
+     * Gets the pacman
+     * @return the pacman if found
+     * @throws EntityNotFoundException an exception if not
+     */
     public Entity getPacman() throws EntityNotFoundException
     {
         for(Entity entity : this._entities)
@@ -141,6 +175,11 @@ public class Grid
         throw new EntityNotFoundException("Pacman not found");
     }
     
+    /**
+     * 
+     * @return the ghosts if found
+     * @throws EntityNotFoundException if not found
+     */
     public ArrayList<Entity> getGhosts() throws EntityNotFoundException
     {
         ArrayList<Entity> ghosts = new ArrayList<Entity>();
@@ -161,15 +200,32 @@ public class Grid
         }
     }
     
-    /**
-     * Checks if the grid contains no more gum
-     * @return true if this is the case. False otherwise.
-     */
-    public boolean getWin_NoMoreGums()
+    public void changeGhostTexture(boolean afraid) throws EntityNotFoundException
     {
-        //TODO
-        return false;
+        for(int i = 0; i < this.getGhosts().size(); i++)
+        {
+            if(afraid)
+            {
+                this.getGhosts().get(i).setNewImage(Consts.getAfraidGhostImgPath());
+            }
+            else
+            {
+                switch(i)
+                {
+                    case 0:
+                        this.getGhosts().get(i).setNewImage(Consts.getPinkGhostImgPath());
+                        break;
+                    case 1:
+                        this.getGhosts().get(i).setNewImage(Consts.getRedGhostImgPath());
+                        break;
+                    case 2:
+                        this.getGhosts().get(i).setNewImage(Consts.getOrangeGhostImgPath());
+                        break;
+                }
+            }
+        }
     }
+    
     
     public void setLost(boolean lost)
     {

@@ -9,6 +9,7 @@ import static Library.Direction.DOWN;
 import static Library.Direction.LEFT;
 import static Library.Direction.RIGHT;
 import static Library.Direction.UP;
+import MyExceptions.EntityNotFoundException;
 import Utilities.Consts;
 import java.util.ArrayList;
 import java.util.Map;
@@ -134,7 +135,7 @@ public class Entity
             {
                 flag = true;
             }
-            if (cpt > 100)
+            if (cpt > 20)
             {
                 flag = true;
             }
@@ -195,28 +196,36 @@ public class Entity
         boolean res = false;
         boolean lost = false;
         res = this._grid.isTravellable(_x + xOffset, _y + yOffset);
-        if (this._type == EntityType.PACMAN)
+        if (this._type == EntityType.PACMAN /*&& !Game.isPacmanBoosted()*/)
         {
             lost = this._grid.contains(_x + xOffset, _y + yOffset, EntityType.GHOST);
         }
-        else if(this._type == EntityType.GHOST)
+        else if(this._type == EntityType.GHOST && !Game.isPacmanBoosted())
         {
             lost = this._grid.contains(_x + xOffset, _y + yOffset, EntityType.PACMAN);
         }
         
+        boolean gum = this._grid.contains(_x + xOffset, _y + yOffset, EntityType.GUM);
+        boolean bigGum = this._grid.contains(_x + xOffset, _y + yOffset, EntityType.BIG_GUM);
         if (res & !lost)
         {
             if (this._type == EntityType.PACMAN)
             {
                 // the entity has moved to the right
                 this._grid.getCells()[this._x + xOffset][this._y + yOffset] = this;
-                // if the entity was a pacman, the previous cell becomes a default cell
                 this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getDefaultImgPath(), EntityType.DEFAULT);
+                if(gum || bigGum)
+                {
+                    this._grid.eatenGum();
+                    if(bigGum)
+                    {
+                        Game.setPacmanBoosted();
+                    }
+                }
             }
             if (this._type == EntityType.GHOST)
             {
-                boolean gum = this._grid.contains(_x + xOffset, _y + yOffset, EntityType.GUM);
-                boolean bigGum = this._grid.contains(_x + xOffset, _y + yOffset, EntityType.BIG_GUM);
+
                 boolean ghost = this._grid.contains(_x + xOffset, _y + yOffset, EntityType.GHOST);
                 //if the ghost were about to "meet", the function returns false.
                 if (ghost)
@@ -225,7 +234,6 @@ public class Entity
                 } // the previous cell was a gum
                 else if (gum)
                 {
-                    // the entity has moved to the right
                     this._grid.getCells()[this._x][this._y] = new Entity(this._x, this._y, this._grid, Consts.getSmallGumImgPath(), EntityType.GUM);
                 } // the previous cell was a big gum
                 else if (bigGum)
@@ -247,7 +255,6 @@ public class Entity
         }
         return res;
     }
-
     /**
      * Chagnes the pacman texture according to a direction
      * @param dir the direction of the pacman

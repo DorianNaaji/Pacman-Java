@@ -75,4 +75,9 @@ public class Consts
     {
         return "resources/orange_ghost.png";
     }
+    
+    public static String getAfraidGhostImgPath()
+    {
+        return "resources/eatable_ghost.png";
+    }
 }
