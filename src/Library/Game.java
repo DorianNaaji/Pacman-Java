@@ -5,8 +5,8 @@
  */
 package Library;
 
-import Library.Grid;
 import MyExceptions.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +26,7 @@ public class Game extends Observable implements Runnable
     private boolean _exit = false;
     private static int _boostDuration = 0;
     private static boolean _boosted = false;
+    private static int _defaultSleepTime = 50;
     
     /**
      * default constr.
@@ -46,12 +47,11 @@ public class Game extends Observable implements Runnable
         {
             try
             {
-
                 this.setChanged();
                 this.notifyObservers();
-                // sleeps for 300ms
+                // sleeps for 100ms
                 // pretty okay amount of time so the player can react easily : not too fast, not too slow.
-                Thread.sleep(300);
+                Thread.sleep(_defaultSleepTime);
                 this.manageBoostInteraction();
                 
             } 
@@ -71,11 +71,11 @@ public class Game extends Observable implements Runnable
         if(this._boosted)
         {
             this._boostDuration--;
-            this.getState().changeGhostTexture(true);
+            this.getState().ChangeGhostState(true);
             if(this._boostDuration == 0)
             {
                 this._boosted = false;
-                this.getState().changeGhostTexture(false);
+                this.getState().ChangeGhostState(false);
             }
         }
     }
@@ -149,6 +149,51 @@ public class Game extends Observable implements Runnable
     public void setLastTriedDirection(Direction dir)
     {
         this._triedDir = dir;
+    }
+    
+    public void movePacman()
+    {
+        // for the gameplay to be more fluid, we stock the last tried direction of the player
+        // and we make the pacman go to this tried direction as soon as it is possible.
+        try
+        {
+            if (this.getLastTriedDirection() != null)
+            {
+                if (this.getState().getPacman().move(this.getLastTriedDirection()))
+                {
+                    this.setDirection(this.getLastTriedDirection());
+                    this.setLastTriedDirection(null);
+                } else
+                {
+                    this.getState().getPacman().move(this.getDirection());
+                }
+            } else
+            {
+                this.getState().getPacman().move(this.getDirection());
+            }
+
+        } 
+        catch (EntityNotFoundException ex)
+        {
+            System.out.println(ex + "||| Error occured in Game.movePacman()");
+           
+        }
+    }
+    
+    public void moveGhosts()
+    {
+        try
+        {
+            ArrayList<Entity> ghosts = this.getState().getGhosts();
+            for(int i = 0; i < ghosts.size(); i++)
+            {
+                ghosts.get(i).moveAI();
+            }
+        } 
+        catch (EntityNotFoundException ex)
+        {
+            System.out.println(ex);
+        }
     }
     
 }

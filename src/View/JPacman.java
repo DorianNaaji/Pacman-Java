@@ -6,21 +6,12 @@
 package View;
 
 import FileAndUserIO.UserIO;
-import Library.Direction;
 import Library.Game;
-import MyExceptions.EntityNotFoundException;
 import Utilities.Consts;
-import java.awt.Event;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -36,11 +27,9 @@ public class JPacman extends Application
     private GridPane _pane;
 
     
-
     @Override
     public void start(Stage primaryStage)
     {
-
         primaryStage.getIcons().add(new Image(Consts.getPolytechImgPath()));
         //empêche de resize la window
         primaryStage.resizableProperty().set(false);
@@ -63,8 +52,7 @@ public class JPacman extends Application
         {
             for(int j = 0; j < game.getState().getCells()[i].length; j++)
             {
-                ImageView img = new ImageView();
-                img.setImage(this._game.getState().getCells()[i][j].getImage());
+                ImageView img = new ImageView(this._game.getState().getCells()[i][j].getImgPath());
 
                 gPane.add(img, column++, row);
 
@@ -75,8 +63,6 @@ public class JPacman extends Application
                 }
             }
         }
-        
-
         
         
         // permet d'afficher les bords des lignes ou non.
@@ -95,7 +81,6 @@ public class JPacman extends Application
         
         // on lance le thread de la couche métier
         new Thread(game).start();
-        
     }
     
     @Override
@@ -103,11 +88,6 @@ public class JPacman extends Application
     {
         this._game.stop();
     }
-   
-    
-
-
-
 
     /**
      * @param args the command line arguments

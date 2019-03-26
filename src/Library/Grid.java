@@ -6,7 +6,6 @@
 package Library;
 
 import FileAndUserIO.FileIO;
-import static Library.EntityType.GUM;
 import MyExceptions.EntityNotFoundException;
 import Utilities.Consts;
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ public class Grid
                         this._entities.add(this._cells[i][j]);
                         break;
                     case '2':
-                        this._cells[i][j] = new Entity(i, j, this, Consts.getBigGumImgPath(), EntityType.BIG_GUM);
+                        this._cells[i][j] = new Entity(i, j, this, Consts.getBigGumImgPath(),EntityType.BIG_GUM);
                         this._entities.add(this._cells[i][j]);
                         break;
                     case '3':
@@ -62,11 +61,11 @@ public class Grid
                         this._entities.add(this._cells[i][j]);
                         break;
                     case '4':
-                        this._cells[i][j] = new Entity(i, j, this, Consts.getRedGhostImgPath(), EntityType.GHOST);
+                        this._cells[i][j] = new Entity(i, j, this, Consts.getPinkGhostImgPath(), EntityType.GHOST);
                         this._entities.add(this._cells[i][j]);
                         break;                    
                     case '5':
-                        this._cells[i][j] = new Entity(i, j, this, Consts.getPinkGhostImgPath(), EntityType.GHOST);
+                        this._cells[i][j] = new Entity(i, j, this, Consts.getRedGhostImgPath(),EntityType.GHOST);
                         this._entities.add(this._cells[i][j]);
                         break;
                     case '6':
@@ -175,6 +174,32 @@ public class Grid
         throw new EntityNotFoundException("Pacman not found");
     }
     
+       public void ChangeGhostState(boolean afraid) throws EntityNotFoundException
+    {
+        for(int i = 0; i < this.getGhosts().size(); i++)
+        {
+            if(afraid)
+            {
+                this.getGhosts().get(i).setImgPath(Consts.getAfraidGhostImgPath());
+            }
+            else
+            {
+                switch(i)
+                {
+                    case 0:
+                        this.getGhosts().get(i).setImgPath(Consts.getPinkGhostImgPath());
+                        break;
+                    case 1:
+                        this.getGhosts().get(i).setImgPath(Consts.getRedGhostImgPath());
+                        break;
+                    case 2:
+                        this.getGhosts().get(i).setImgPath(Consts.getOrangeGhostImgPath());
+                        break;
+                }
+            }
+        }
+    }
+    
     /**
      * 
      * @return the ghosts if found
@@ -197,32 +222,6 @@ public class Grid
         else
         {
             throw new EntityNotFoundException("Ghosts not found");
-        }
-    }
-    
-    public void changeGhostTexture(boolean afraid) throws EntityNotFoundException
-    {
-        for(int i = 0; i < this.getGhosts().size(); i++)
-        {
-            if(afraid)
-            {
-                this.getGhosts().get(i).setNewImage(Consts.getAfraidGhostImgPath());
-            }
-            else
-            {
-                switch(i)
-                {
-                    case 0:
-                        this.getGhosts().get(i).setNewImage(Consts.getPinkGhostImgPath());
-                        break;
-                    case 1:
-                        this.getGhosts().get(i).setNewImage(Consts.getRedGhostImgPath());
-                        break;
-                    case 2:
-                        this.getGhosts().get(i).setNewImage(Consts.getOrangeGhostImgPath());
-                        break;
-                }
-            }
         }
     }
     

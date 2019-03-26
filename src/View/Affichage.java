@@ -5,29 +5,16 @@
  */
 package View;
 
-import Library.Direction;
-import Library.Entity;
-import Library.EntityType;
 import Library.Game;
-import MyExceptions.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 /**
  *
@@ -45,46 +32,7 @@ public class Affichage implements Observer
         this._pane = pane;
     }
 
-    /**
-     * Checks if the game is lost or not
-     * @return true if the game is lost
-     */
-    private boolean checkLose()
-    {
-        // IF THE GAME IS OVER
-        if (this._game.getState().getLost())
-        {
-            // END OF THE GAME
-            this._game.stop();
-            Platform.runLater(() -> this._pane.getChildren().clear());
-            Text label = new Text("Game over !");
-            label.setStyle("-fx-font: 90 arial;");
-            Platform.runLater(() -> this._pane.add(label, 0, 0));
-
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Checks if the game is won or not yet
-     * @return true if the game is won
-     */
-    private boolean checkWin()
-    {
-        if (this._game.getState().noMoreGums())
-        {
-            // END OF THE GAME
-            this._game.stop();
-            Platform.runLater(() -> this._pane.getChildren().clear());
-            Text label = new Text("You won !");
-            label.setStyle("-fx-font: 90 arial;");
-            Platform.runLater(() -> this._pane.add(label, 0, 0));
-
-            return true;
-        }
-        return false;
-    }
+   
     /**
      * Updates the view
      *
@@ -99,58 +47,50 @@ public class Affichage implements Observer
             // we step out from the update function to cause no conflicts between the UI reloads if the game is either won or lost
             return;
         }
-        this.moveGhosts();
-        this.movePacman();
+        this._game.moveGhosts();
+        this._game.movePacman();
         this.updateImageViews();
     }
     
-    private void moveGhosts()
+     /**
+     * Checks if the game is lost or not according to the CONTROLLER state
+     * @return true if the game is lost
+     */
+    private boolean checkLose()
     {
-        try
+        // IF THE GAME IS OVER
+        if (this._game.getState().getLost())
         {
-            ArrayList<Entity> ghosts = this._game.getState().getGhosts();
-            for(int i = 0; i < ghosts.size(); i++)
-            {
-                ghosts.get(i).moveAI();
-            }
-        } 
-        catch (EntityNotFoundException ex)
-        {
-            Logger.getLogger(Affichage.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+            // we stop the independant thread game
+            this._game.stop();
+            Platform.runLater(() -> this._pane.getChildren().clear());
+            Text label = new Text("Game over !");
+            label.setStyle("-fx-font: 90 arial;");
+            Platform.runLater(() -> this._pane.add(label, 0, 0));
 
+            return true;
+        }
+        return false;
     }
 
     /**
-     * Moves the pacman
+     * Checks if the game is won or not yet according to the CONTROLLER state
+     * @return true if the game is won
      */
-    private void movePacman()
+    private boolean checkWin()
     {
-        // for the gameplay to be more fluid, we stock the last tried direction of the player
-        // and we make the pacman go to this tried direction as soon as it is possible.
-        try
+        if (this._game.getState().noMoreGums())
         {
-            if (this._game.getLastTriedDirection() != null)
-            {
-                if (this._game.getState().getPacman().move(this._game.getLastTriedDirection()))
-                {
-                    this._game.setDirection(this._game.getLastTriedDirection());
-                    this._game.setLastTriedDirection(null);
-                } else
-                {
-                    this._game.getState().getPacman().move(this._game.getDirection());
-                }
-            } else
-            {
-                this._game.getState().getPacman().move(this._game.getDirection());
-            }
+            // END OF THE GAME : we stop the independant thread game
+            this._game.stop();
+            Platform.runLater(() -> this._pane.getChildren().clear());
+            Text label = new Text("You won !");
+            label.setStyle("-fx-font: 90 arial;");
+            Platform.runLater(() -> this._pane.add(label, 0, 0));
 
-        } catch (EntityNotFoundException ex)
-        {
-            System.out.println(ex + "||| Error occured in Affichage.update()");
-            Logger.getLogger(Affichage.class.getName()).log(Level.SEVERE, null, ex);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -162,10 +102,11 @@ public class Affichage implements Observer
         {
             for (int j = 0; j < this._game.getState().getCells()[i].length; j++)
             {
-                ImageView img = new ImageView(this._game.getState().getCells()[i][j].getImage());
+                ImageView img = new ImageView(this._game.getState().getCells()[i][j].getImgPath());
                 Node imgAsNode = this.getNodeByRowColumnIndex(i, j, _pane);
                 ImageView oldImage = (ImageView) imgAsNode;
-                oldImage.setImage(this._game.getState().getCells()[i][j].getImage());
+                Image newImage = new Image(this._game.getState().getCells()[i][j].getImgPath());
+                oldImage.setImage(newImage);
             }
         }
     }
@@ -195,5 +136,4 @@ public class Affichage implements Observer
         }
         return result;
     }
-
 }

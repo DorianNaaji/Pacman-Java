@@ -9,12 +9,9 @@ import static Library.Direction.DOWN;
 import static Library.Direction.LEFT;
 import static Library.Direction.RIGHT;
 import static Library.Direction.UP;
-import MyExceptions.EntityNotFoundException;
 import Utilities.Consts;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
-import javafx.scene.image.Image;
+import java.util.Random;    
 
 /**
  *
@@ -23,7 +20,6 @@ import javafx.scene.image.Image;
 public class Entity
 {
 
-    private Image _image;
     private String _imagePath;
     private int _x;
     private int _y;
@@ -41,21 +37,12 @@ public class Entity
     public Entity(int x, int y, Grid g, String imgPath, EntityType type)
     {
         this._imagePath = imgPath;
-        this._image = new Image(this._imagePath);
         this._x = x;
         this._y = y;
         this._grid = g;
         this._type = type;
     }
 
-    /**
-     * Gets the entity image
-     * @return the current entity img
-     */
-    public Image getImage()
-    {
-        return this._image;
-    }
 
     /**
      * Getter
@@ -88,10 +75,14 @@ public class Entity
      * Sets a new Image & new ImagePath to the current entity
      * @param imgPath : The path of the img
      */
-    public void setNewImage(String imgPath)
+    public void setImgPath(String imgPath)
     {
         this._imagePath = imgPath;
-        this._image = new Image(imgPath);
+    }
+    
+    public String getImgPath()
+    {
+        return this._imagePath;
     }
 
     /**
@@ -157,28 +148,28 @@ public class Entity
                 ret = this.move(0, 1);
                 if(this._type == EntityType.PACMAN)
                 {
-                    this.changePacmanTextureAccordingToDirection(RIGHT);
+                    this._imagePath = Consts.getPacmanRightImgPath();
                 }
                 break;
             case LEFT:
                 ret = this.move(0, - 1);
                 if(this._type == EntityType.PACMAN)
                 {
-                    this.changePacmanTextureAccordingToDirection(LEFT);
+                    this._imagePath = Consts.getPacmanLeftImgPath();
                 }
                 break;
             case UP:
                 ret = this.move(- 1, 0);
                 if(this._type == EntityType.PACMAN)
                 {
-                    this.changePacmanTextureAccordingToDirection(UP);
+                    this._imagePath = Consts.getPacmanUpImgPath();
                 }
                 break;
             case DOWN:
                 ret = this.move(1, 0);
                 if(this._type == EntityType.PACMAN)
                 {
-                    this.changePacmanTextureAccordingToDirection(DOWN);
+                    this._imagePath = Consts.getPacmanDownImgPath();
                 }
                 break;
         }
@@ -254,27 +245,5 @@ public class Entity
             this._grid.setLost(true);
         }
         return res;
-    }
-    /**
-     * Chagnes the pacman texture according to a direction
-     * @param dir the direction of the pacman
-     */
-    private void changePacmanTextureAccordingToDirection(Direction dir)
-    {
-        switch (dir)
-        {
-            case RIGHT:
-                this.setNewImage(Consts.getPacmanRightImgPath());
-                break;
-            case LEFT:
-                this.setNewImage(Consts.getPacmanLeftImgPath());
-                break;
-            case UP:
-                this.setNewImage(Consts.getPacmanUpImgPath());
-                break;
-            case DOWN:
-                this.setNewImage(Consts.getPacmanDownImgPath());
-                break;
-        }
     }
 }
